@@ -1,6 +1,10 @@
 package com.aldinalj.enterprise_project.user.model;
 
+import com.aldinalj.enterprise_project.user.authorities.UserRole;
 import jakarta.persistence.*;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -14,11 +18,22 @@ public class CustomUser {
 
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
+    private boolean isAccountNonExpired;
+    private boolean isAccountNonLocked;
+    private boolean isCredentialsNonExpired;
+    private boolean isEnabled;
+
     public CustomUser(){}
 
     public CustomUser(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public List<SimpleGrantedAuthority> getAuthorities() {
+        return userRole.getAuthorities();
     }
 
     public Long getId() {
@@ -39,5 +54,45 @@ public class CustomUser {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
+    }
+
+    public boolean isAccountNonExpired() {
+        return isAccountNonExpired;
+    }
+
+    public void setAccountNonExpired(boolean accountNonExpired) {
+        isAccountNonExpired = accountNonExpired;
+    }
+
+    public boolean isAccountNonLocked() {
+        return isAccountNonLocked;
+    }
+
+    public void setAccountNonLocked(boolean accountNonLocked) {
+        isAccountNonLocked = accountNonLocked;
+    }
+
+    public boolean isCredentialsNonExpired() {
+        return isCredentialsNonExpired;
+    }
+
+    public void setCredentialsNonExpired(boolean credentialsNonExpired) {
+        isCredentialsNonExpired = credentialsNonExpired;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
     }
 }
