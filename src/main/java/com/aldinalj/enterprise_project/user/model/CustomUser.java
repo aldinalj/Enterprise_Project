@@ -27,9 +27,14 @@ public class CustomUser {
 
     public CustomUser(){}
 
-    public CustomUser(String username, String password) {
+    public CustomUser(String username, String password, UserRole userRole, boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled) {
         this.username = username;
         this.password = password;
+        this.userRole = userRole;
+        this.isAccountNonExpired = isAccountNonExpired;
+        this.isAccountNonLocked = isAccountNonLocked;
+        this.isCredentialsNonExpired = isCredentialsNonExpired;
+        this.isEnabled = isEnabled;
     }
 
     public List<SimpleGrantedAuthority> getAuthorities() {
