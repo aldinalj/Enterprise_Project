@@ -2,6 +2,7 @@ package com.aldinalj.enterprise_project.user.controller;
 
 import com.aldinalj.enterprise_project.user.model.dto.CustomUserDTO;
 import com.aldinalj.enterprise_project.user.service.CustomUserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +22,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<CustomUserDTO> registerUser(@RequestBody CustomUserDTO customUserDTO) {
+    public ResponseEntity<CustomUserDTO> registerUser(@Valid @RequestBody CustomUserDTO customUserDTO) {
 
         return customUserService.createUser(customUserDTO);
 
