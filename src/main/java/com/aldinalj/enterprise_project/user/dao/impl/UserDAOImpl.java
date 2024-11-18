@@ -14,36 +14,18 @@ import java.util.Optional;
 public class UserDAOImpl implements UserDAO {
 
     @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
-
-    @Override
-    public CustomUser save(CustomUser user) {
-        entityManager.persist(user);
-        return user;
-    }
-
-    @Override
-    public CustomUser update(CustomUser user) {
-        return user;
-    }
-
-    @Override
-    public void delete(CustomUser user) {
-    }
-
-    @Override
-    public Optional<CustomUser> findById(Long id) {
-        return Optional.empty();
-    }
 
     @Override
     public Optional<CustomUser> findByUsername(String username) {
-        return Optional.empty();
+        String query = "SELECT u FROM CustomUser u WHERE u.username = :username";
+
+        return entityManager.createQuery(query, CustomUser.class)
+                .setParameter("username", username)
+                .getResultStream()
+                .findFirst();
     }
 
-    @Override
-    public boolean existsByUsername(String username) {
-        return false;
-    }
 }
+
