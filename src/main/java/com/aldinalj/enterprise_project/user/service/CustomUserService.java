@@ -3,8 +3,11 @@ package com.aldinalj.enterprise_project.user.service;
 import com.aldinalj.enterprise_project.user.model.CustomUser;
 import com.aldinalj.enterprise_project.user.model.dto.CustomUserDTO;
 import com.aldinalj.enterprise_project.user.repository.UserRepository;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +44,20 @@ public class CustomUserService {
         userRepository.save(customUser);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(customUserDTO);
+
+    }
+
+    public ResponseEntity<CustomUserDTO> deleteUser (Authentication authentication) {
+
+        String username = authentication.getName();
+
+        CustomUser customUser = userRepository
+                .findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
+
+        userRepository.delete(customUser);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new CustomUserDTO(customUser.getUsername()));
 
     }
 }
