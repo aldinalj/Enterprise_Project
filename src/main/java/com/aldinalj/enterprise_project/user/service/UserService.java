@@ -4,26 +4,34 @@ import com.aldinalj.enterprise_project.user.model.CustomUser;
 import com.aldinalj.enterprise_project.user.model.dto.CustomUserDTO;
 import com.aldinalj.enterprise_project.user.repository.UserRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
 
 import static com.aldinalj.enterprise_project.user.authorities.UserRole.USER;
 
 @Service
-public class CustomUserService {
+public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public CustomUserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    @Autowired
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Transactional
     public ResponseEntity<CustomUserDTO> createUser(CustomUserDTO customUserDTO) {
 
         CustomUser customUser = new CustomUser(
@@ -47,13 +55,16 @@ public class CustomUserService {
 
     }
 
-    public ResponseEntity<CustomUserDTO> deleteUser (Authentication authentication) {
+    @Transactional
+    public ResponseEntity<CustomUserDTO> deleteUser (UserDetails userDetails) {
 
-        String username = authentication.getName();
+        if (Objects.isNull(userDetails)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 
         CustomUser customUser = userRepository
-                .findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(username));
+                .findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException(userDetails.getUsername() + "could not be found"));
 
         userRepository.delete(customUser);
 

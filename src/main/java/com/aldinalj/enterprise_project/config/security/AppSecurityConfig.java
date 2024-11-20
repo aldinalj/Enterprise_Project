@@ -1,5 +1,6 @@
 package com.aldinalj.enterprise_project.config.security;
 
+
 import com.aldinalj.enterprise_project.user.authorities.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,49 +11,49 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
 public class AppSecurityConfig {
 
-    private final CustomUserDetailsService customUserDetailsService;
     private final PasswordEncoder passwordEncoder;
+    private final CustomUserDetailsService customUserDetailsService;
 
     @Autowired
-    public AppSecurityConfig(CustomUserDetailsService customUserDetailsService, PasswordEncoder passwordEncoder) {
-        this.customUserDetailsService = customUserDetailsService;
+    public AppSecurityConfig(PasswordEncoder passwordEncoder, CustomUserDetailsService customUserDetailsService) {
         this.passwordEncoder = passwordEncoder;
+        this.customUserDetailsService = customUserDetailsService;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/user/**").permitAll()
-                        .requestMatchers("/admin").hasRole(UserRole.ADMIN.name())
-                        //.requestMatchers("/user").hasRole(UserRole.USER.name())
+                        .requestMatchers("/index", "/login","/dev/**", "/user/**" ).permitAll()
+                        .requestMatchers("/userpage").hasRole(UserRole.USER.name())
+                        .requestMatchers("/adminpage").hasRole(UserRole.ADMIN.name())
                         .anyRequest().authenticated()
                 )
-
                 .formLogin(withDefaults())
                 .logout(logout -> logout
                         .logoutSuccessUrl("/")
-                );
+                )
+                .authenticationProvider(authenticationProvider());
 
-                return http.build();
+        return http.build();
     }
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
-
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
-        daoAuthenticationProvider.setUserDetailsService(customUserDetailsService);
-
-        return daoAuthenticationProvider;
-
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(customUserDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder);
+        return authProvider;
     }
+
 }

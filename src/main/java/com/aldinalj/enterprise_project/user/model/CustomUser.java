@@ -100,4 +100,17 @@ public class CustomUser {
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
     }
+
+    @Override
+    public String toString() {
+        return "CustomUser{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", userRole=" + userRole +
+                ", isAccountNonExpired=" + isAccountNonExpired +
+                ", isAccountNonLocked=" + isAccountNonLocked +
+                ", isCredentialsNonExpired=" + isCredentialsNonExpired +
+                ", isEnabled=" + isEnabled +
+                '}';
+    }
 }

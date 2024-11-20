@@ -27,14 +27,13 @@ public class CustomUserDetails implements UserDetails {
     }
 
     public CustomUserDetails(CustomUser customUser) {
-        this.password = customUser.getUsername();
-        this.username = customUser.getPassword();
+        this.username = customUser.getUsername();
+        this.password = customUser.getPassword();
         this.authorities = customUser.getAuthorities();
         this.isAccountNonExpired = customUser.isAccountNonExpired();
         this.isAccountNonLocked = customUser.isAccountNonLocked();
         this.isCredentialsNonExpired = customUser.isCredentialsNonExpired();
         this.isEnabled = customUser.isEnabled();
-
     }
 
     @Override
