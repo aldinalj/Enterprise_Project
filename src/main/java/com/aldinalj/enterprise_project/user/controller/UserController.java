@@ -38,6 +38,14 @@ public class UserController {
         return userService.deleteUser(userDetails);
     }
 
+    @PostMapping("/login")
+    public String login(@RequestBody CustomUser customUser) {
+
+        System.out.println(customUser);
+
+        return userService.verify(customUser);
+    }
+
     @GetMapping("/test")
     public ResponseEntity<CustomUserDTO> testFetchUser(@AuthenticationPrincipal UserDetails userDetails) {
 
@@ -59,7 +67,6 @@ public class UserController {
         } else {
 
             return ResponseEntity.ok().body(new CustomUserDTO("clarkkent", "superman"));
-
         }
 
     }
