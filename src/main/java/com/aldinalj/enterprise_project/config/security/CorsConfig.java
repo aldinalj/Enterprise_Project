@@ -14,23 +14,16 @@ public class CorsConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
 
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-
-        corsConfiguration.addAllowedOrigin("http://localhost:3000");
-        corsConfiguration.addAllowedMethod("*");
-
-        corsConfiguration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
-        corsConfiguration.setExposedHeaders(List.of("Set-Cookie"));
-        corsConfiguration.setAllowCredentials(true);
+        configuration.addAllowedOrigin("http://localhost:3000");
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-
-        source.registerCorsConfiguration("/user/**", corsConfiguration);
-        source.registerCorsConfiguration("/login", corsConfiguration);
+        source.registerCorsConfiguration("/**", configuration);
 
         return source;
-
-
     }
 }

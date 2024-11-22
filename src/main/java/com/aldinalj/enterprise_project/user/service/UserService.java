@@ -85,10 +85,13 @@ public class UserService {
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(customUser.getUsername(), customUser.getPassword()));
 
         if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(customUser.getUsername());
-        } else {
-            return "Failed verification";
-        }
 
+            String generatedToken = jwtService.generateToken(customUser.getUsername());
+            System.out.println("Generated token: " +  generatedToken);
+            return generatedToken;
+
+        } else {
+            return "Failed authentication";
+        }
     }
 }
