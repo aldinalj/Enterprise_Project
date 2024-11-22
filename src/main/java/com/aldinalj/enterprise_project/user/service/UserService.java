@@ -87,7 +87,7 @@ public class UserService {
         if (authentication.isAuthenticated()) {
             return jwtService.generateToken(customUser.getUsername());
         } else {
-            return "Fail";
+            return "Failed verification";
         }
 
     }

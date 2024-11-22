@@ -49,25 +49,18 @@ public class UserController {
     @GetMapping("/test")
     public ResponseEntity<CustomUserDTO> testFetchUser(@AuthenticationPrincipal UserDetails userDetails) {
 
-        /*System.out.println(userDetails.getUsername() + "/n"
-                + userDetails.getPassword() + "/n"
-                + userDetails.getAuthorities());
-        ResponseEntity<UserDetails> response = ResponseEntity.ok(userDetails);
-        System.out.println(response);*/
-
-        if (userDetails != null) {
-            CustomUserDTO customUerDTO = new CustomUserDTO(
-                    userDetails.getUsername(),
-                    userDetails.getPassword()
-            );
-
-            System.out.println("User " + customUerDTO.username() + " is authenticated");
-
-            return ResponseEntity.ok(customUerDTO);
-        } else {
-
-            return ResponseEntity.ok().body(new CustomUserDTO("clarkkent", "superman"));
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+
+        CustomUserDTO customUserDTO = new CustomUserDTO(
+                userDetails.getUsername(),
+                userDetails.getPassword()
+        );
+
+            System.out.println("User " + customUserDTO.username() + " is authenticated");
+
+            return ResponseEntity.ok(customUserDTO);
 
     }
 }

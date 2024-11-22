@@ -40,7 +40,7 @@ public class AppSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                //.cors(cors -> cors.configurationSource(corsConfigurationSource))
+                .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/index", "/login","/dev/**", "/user/**" ).permitAll()
@@ -72,6 +72,4 @@ public class AppSecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
 
     }
-
-
 }
