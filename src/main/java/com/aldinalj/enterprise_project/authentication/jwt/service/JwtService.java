@@ -1,4 +1,4 @@
-package com.aldinalj.enterprise_project.jwt.service;
+package com.aldinalj.enterprise_project.authentication.jwt.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -19,7 +19,7 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private String secretKey = "";
+    private final String secretKey;
 
     public JwtService() {
         try {

@@ -1,6 +1,7 @@
 package com.aldinalj.enterprise_project.user.service;
 
-import com.aldinalj.enterprise_project.jwt.service.JwtService;
+import com.aldinalj.enterprise_project.authentication.dto.TokenDTO;
+import com.aldinalj.enterprise_project.authentication.jwt.service.JwtService;
 import com.aldinalj.enterprise_project.user.model.CustomUser;
 import com.aldinalj.enterprise_project.user.model.dto.CustomUserDTO;
 import com.aldinalj.enterprise_project.user.repository.UserRepository;
@@ -79,19 +80,30 @@ public class UserService {
 
     }
 
-    public String verify(CustomUser customUser) {
+   /* public String verify(CustomUserDTO customUserDTO) {
 
         Authentication authentication =
-                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(customUser.getUsername(), customUser.getPassword()));
+                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(customUserDTO.username(), customUserDTO.password()));
 
         if (authentication.isAuthenticated()) {
 
-            String generatedToken = jwtService.generateToken(customUser.getUsername());
+            String generatedToken = jwtService.generateToken(customUserDTO.username());
             System.out.println("Generated token: " +  generatedToken);
             return generatedToken;
 
         } else {
             return "Failed authentication";
         }
+    }*/
+
+    public TokenDTO verify(CustomUserDTO customUserDTO) {
+
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(customUserDTO.username(), customUserDTO.password()));
+
+        String generatedToken = jwtService.generateToken(customUserDTO.username());
+        System.out.println("Generated token: " +  generatedToken);
+
+        return new TokenDTO(generatedToken);
     }
 }
+

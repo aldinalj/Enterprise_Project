@@ -1,7 +1,7 @@
-package com.aldinalj.enterprise_project.jwt;
+package com.aldinalj.enterprise_project.authentication.jwt;
 
 import com.aldinalj.enterprise_project.config.security.CustomUserDetailsService;
-import com.aldinalj.enterprise_project.jwt.service.JwtService;
+import com.aldinalj.enterprise_project.authentication.jwt.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
