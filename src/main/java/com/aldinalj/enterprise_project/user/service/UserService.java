@@ -2,6 +2,7 @@ package com.aldinalj.enterprise_project.user.service;
 
 import com.aldinalj.enterprise_project.authentication.dto.TokenDTO;
 import com.aldinalj.enterprise_project.authentication.jwt.service.JwtService;
+import com.aldinalj.enterprise_project.user.dao.UserDAO;
 import com.aldinalj.enterprise_project.user.model.CustomUser;
 import com.aldinalj.enterprise_project.user.model.dto.CustomUserDTO;
 import com.aldinalj.enterprise_project.user.repository.UserRepository;
@@ -12,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,13 +30,16 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final UserDAO userDAO;
+
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager, UserDAO userDAO) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
+        this.userDAO = userDAO;
     }
 
     @Transactional
@@ -52,7 +55,7 @@ public class UserService {
                 true
         );
 
-        if (userRepository.findByUsername(customUser.getUsername()).isPresent()) {
+        if (userDAO.findByUsername(customUser.getUsername()).isPresent()) {
 
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
@@ -70,7 +73,7 @@ public class UserService {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        CustomUser customUser = userRepository
+        CustomUser customUser = userDAO
                 .findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException(userDetails.getUsername() + "could not be found"));
 
@@ -79,22 +82,6 @@ public class UserService {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new CustomUserDTO(customUser.getUsername()));
 
     }
-
-   /* public String verify(CustomUserDTO customUserDTO) {
-
-        Authentication authentication =
-                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(customUserDTO.username(), customUserDTO.password()));
-
-        if (authentication.isAuthenticated()) {
-
-            String generatedToken = jwtService.generateToken(customUserDTO.username());
-            System.out.println("Generated token: " +  generatedToken);
-            return generatedToken;
-
-        } else {
-            return "Failed authentication";
-        }
-    }*/
 
     public TokenDTO verify(CustomUserDTO customUserDTO) {
 

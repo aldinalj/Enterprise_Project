@@ -2,9 +2,28 @@ package com.aldinalj.enterprise_project.user.dao;
 
 import com.aldinalj.enterprise_project.user.model.CustomUser;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+
+import org.springframework.stereotype.Repository;
+
 import java.util.Optional;
 
-public interface UserDAO {
+@Repository
+public class UserDAO {
 
-    Optional<CustomUser> findByUsername(String username);
+    @PersistenceContext
+    private EntityManager entityManager;
+
+
+    public Optional<CustomUser> findByUsername(String username) {
+        String query = "SELECT u FROM CustomUser u WHERE u.username = :username";
+
+        return entityManager.createQuery(query, CustomUser.class)
+                .setParameter("username", username)
+                .getResultStream()
+                .findFirst();
+    }
+
 }
+
