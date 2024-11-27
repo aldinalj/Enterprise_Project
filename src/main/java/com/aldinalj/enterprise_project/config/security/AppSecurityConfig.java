@@ -45,9 +45,9 @@ public class AppSecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/index", "/login","/auth/**", "/user/**").permitAll()
+                        .requestMatchers("/index", "/login","/auth/**", "/user/**", "/dev/**").permitAll()
                         .requestMatchers("/userpage").hasRole(UserRole.USER.name())
-                        .requestMatchers("/adminpage").hasRole(UserRole.ADMIN.name())
+                        .requestMatchers("/admin/**").hasRole(UserRole.ADMIN.name())
                         .anyRequest().authenticated()
                 )
                 .logout(logout -> logout

@@ -39,3 +39,11 @@ out/
 ### application.properties ###
 
 src/main/resources/application.properties
+
+
+### Test Controller ###
+
+src/main/java/com/aldinalj/enterprise_project/user/controller/TestController.java
+
+
+

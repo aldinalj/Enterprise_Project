@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import static com.aldinalj.enterprise_project.user.authorities.UserRole.USER;
 
@@ -91,6 +92,22 @@ public class UserService {
         System.out.println("Generated token: " +  generatedToken);
 
         return new TokenDTO(generatedToken);
+    }
+
+    @Transactional
+    public ResponseEntity<CustomUserDTO> adminDeleteUser(String username) {
+
+        Optional<CustomUser> userToDelete = userDAO.findByUsername(username);
+
+        if (userToDelete.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+            CustomUser customUser = userToDelete.get();
+            userRepository.delete(customUser);
+
+       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
     }
 }
 
