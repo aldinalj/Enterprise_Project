@@ -95,19 +95,15 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity<CustomUserDTO> adminDeleteUser(String username) {
+    public void adminDeleteUser(String username) {
 
         Optional<CustomUser> userToDelete = userDAO.findByUsername(username);
 
         if (userToDelete.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            throw new UsernameNotFoundException(username + " could not be found.");
         }
 
-            CustomUser customUser = userToDelete.get();
-            userRepository.delete(customUser);
-
-       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
+            userRepository.delete(userToDelete.get());
     }
 }
 
