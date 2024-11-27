@@ -17,12 +17,12 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 @Component
-public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class RestAuthEntryPoint implements AuthenticationEntryPoint {
 
     private final ObjectMapper mapper;
 
     @Autowired
-    public RestAuthenticationEntryPoint(ObjectMapper mapper) {
+    public RestAuthEntryPoint(ObjectMapper mapper) {
         this.mapper = mapper;
     }
 

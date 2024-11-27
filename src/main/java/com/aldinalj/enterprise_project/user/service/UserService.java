@@ -1,6 +1,6 @@
 package com.aldinalj.enterprise_project.user.service;
 
-import com.aldinalj.enterprise_project.authentication.dto.TokenDTO;
+import com.aldinalj.enterprise_project.authentication.dto.AuthenticationResponseDTO;
 import com.aldinalj.enterprise_project.authentication.jwt.service.JwtService;
 import com.aldinalj.enterprise_project.user.dao.UserDAO;
 import com.aldinalj.enterprise_project.user.model.CustomUser;
@@ -29,17 +29,13 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
     private final UserDAO userDAO;
 
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager, UserDAO userDAO) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserDAO userDAO) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.jwtService = jwtService;
-        this.authenticationManager = authenticationManager;
         this.userDAO = userDAO;
     }
 
@@ -82,16 +78,6 @@ public class UserService {
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new CustomUserDTO(customUser.getUsername()));
 
-    }
-
-    public TokenDTO verify(CustomUserDTO customUserDTO) {
-
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(customUserDTO.username(), customUserDTO.password()));
-
-        String generatedToken = jwtService.generateToken(customUserDTO.username());
-        System.out.println("Generated token: " +  generatedToken);
-
-        return new TokenDTO(generatedToken);
     }
 
     @Transactional

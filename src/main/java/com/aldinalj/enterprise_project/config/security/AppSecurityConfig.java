@@ -3,8 +3,7 @@ package com.aldinalj.enterprise_project.config.security;
 
 import com.aldinalj.enterprise_project.authentication.jwt.JwtFilter;
 import com.aldinalj.enterprise_project.authentication.jwt.RestAccessDeniedHandler;
-import com.aldinalj.enterprise_project.authentication.jwt.RestAuthenticationEntryPoint;
-import com.aldinalj.enterprise_project.user.authorities.UserRole;
+import com.aldinalj.enterprise_project.authentication.jwt.RestAuthEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,16 +27,16 @@ public class AppSecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
     private final CorsConfigurationSource corsConfigurationSource;
     private final JwtFilter jwtFilter;
-    private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+    private final RestAuthEntryPoint restAuthEntryPoint;
     private final RestAccessDeniedHandler restAccessDeniedHandler;
 
     @Autowired
-    public AppSecurityConfig(PasswordEncoder passwordEncoder, CustomUserDetailsService customUserDetailsService, CorsConfigurationSource corsConfigurationSource, JwtFilter jwtFilter, RestAuthenticationEntryPoint restAuthenticationEntryPoint, RestAccessDeniedHandler restAccessDeniedHandler) {
+    public AppSecurityConfig(PasswordEncoder passwordEncoder, CustomUserDetailsService customUserDetailsService, CorsConfigurationSource corsConfigurationSource, JwtFilter jwtFilter, RestAuthEntryPoint restAuthenticationEntryPoint, RestAccessDeniedHandler restAccessDeniedHandler) {
         this.passwordEncoder = passwordEncoder;
         this.customUserDetailsService = customUserDetailsService;
         this.corsConfigurationSource = corsConfigurationSource;
         this.jwtFilter = jwtFilter;
-        this.restAuthenticationEntryPoint = restAuthenticationEntryPoint;
+        this.restAuthEntryPoint = restAuthenticationEntryPoint;
         this.restAccessDeniedHandler = restAccessDeniedHandler;
     }
 
@@ -56,7 +55,7 @@ public class AppSecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .authenticationEntryPoint(restAuthenticationEntryPoint)
+                        .authenticationEntryPoint(restAuthEntryPoint)
                         .accessDeniedHandler(restAccessDeniedHandler)
                 )
                 .logout(logout -> logout
