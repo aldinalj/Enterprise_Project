@@ -1,6 +1,6 @@
 package com.aldinalj.enterprise_project.authentication.dto;
 
-public record AuthenticationResponseDTO(
+public record AuthResponseDTO(
         String token,
         String role
 ){

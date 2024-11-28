@@ -1,6 +1,6 @@
 package com.aldinalj.enterprise_project.authentication.controller;
 
-import com.aldinalj.enterprise_project.authentication.dto.AuthenticationResponseDTO;
+import com.aldinalj.enterprise_project.authentication.dto.AuthResponseDTO;
 import com.aldinalj.enterprise_project.authentication.service.AuthService;
 import com.aldinalj.enterprise_project.user.model.dto.CustomUserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponseDTO> login(@RequestBody CustomUserDTO customUserDTO) {
+    public ResponseEntity<AuthResponseDTO> login(@RequestBody CustomUserDTO customUserDTO) {
 
         System.out.println(customUserDTO);
 

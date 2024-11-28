@@ -1,6 +1,6 @@
 package com.aldinalj.enterprise_project.authentication.service;
 
-import com.aldinalj.enterprise_project.authentication.dto.AuthenticationResponseDTO;
+import com.aldinalj.enterprise_project.authentication.dto.AuthResponseDTO;
 import com.aldinalj.enterprise_project.authentication.jwt.service.JwtService;
 import com.aldinalj.enterprise_project.user.model.dto.CustomUserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class AuthService {
         this.jwtService = jwtService;
     }
 
-    public AuthenticationResponseDTO verify(CustomUserDTO customUserDTO) {
+    public AuthResponseDTO verify(CustomUserDTO customUserDTO) {
 
         Authentication authentication =
                 authenticationManager.authenticate(
@@ -34,7 +34,7 @@ public class AuthService {
         String generatedToken = jwtService.generateToken(customUserDTO.username());
         System.out.println("Generated token: " +  generatedToken);
 
-        return new AuthenticationResponseDTO(
+        return new AuthResponseDTO(
                 generatedToken,
                 authentication.getAuthorities()
                         .stream()
