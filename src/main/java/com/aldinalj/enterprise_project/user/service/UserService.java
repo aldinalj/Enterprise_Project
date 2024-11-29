@@ -48,7 +48,7 @@ public class UserService {
                 true
         );
 
-        if (userDAO.findByUsername(customUser.getUsername()).isPresent()) {
+        if (userDAO.findByUsernameIgnoreCase(customUser.getUsername()).isPresent()) {
 
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }

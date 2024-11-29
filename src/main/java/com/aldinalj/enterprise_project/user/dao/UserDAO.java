@@ -25,5 +25,14 @@ public class UserDAO {
                 .findFirst();
     }
 
+    public Optional<CustomUser> findByUsernameIgnoreCase(String username) {
+
+        String query = "SELECT u FROM CustomUser u WHERE LOWER(u.username) = LOWER(:username)";
+
+        return entityManager.createQuery(query, CustomUser.class)
+                .setParameter("username", username)
+                .getResultStream()
+                .findFirst();
+    }
 }
 
