@@ -1,6 +1,5 @@
 package com.aldinalj.enterprise_project.config.security;
 
-
 import com.aldinalj.enterprise_project.authentication.jwt.JwtFilter;
 import com.aldinalj.enterprise_project.authentication.jwt.RestAccessDeniedHandler;
 import com.aldinalj.enterprise_project.authentication.jwt.RestAuthEntryPoint;
@@ -50,7 +49,7 @@ public class AppSecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login","/auth/**", "/user/**").permitAll()
+                        .requestMatchers("/", "/login", "/auth/**", "/user/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )

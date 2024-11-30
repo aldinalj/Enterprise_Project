@@ -14,8 +14,7 @@ public record CustomUserDTO(
         String password
 
 ) {
-
-        public CustomUserDTO(String username) {
-          this(username, "");
-        }
+    public CustomUserDTO(String username) {
+        this(username, "");
+    }
 }

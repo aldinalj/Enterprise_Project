@@ -1,7 +1,5 @@
 package com.aldinalj.enterprise_project.user.controller;
 
-import com.aldinalj.enterprise_project.config.security.CustomUserDetails;
-import com.aldinalj.enterprise_project.user.model.CustomUser;
 import com.aldinalj.enterprise_project.user.model.dto.CustomUserDTO;
 import com.aldinalj.enterprise_project.user.service.UserService;
 import jakarta.validation.Valid;
@@ -11,8 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
-import static com.aldinalj.enterprise_project.user.authorities.UserRole.USER;
 
 @RestController
 @RequestMapping("/user")
@@ -51,9 +47,9 @@ public class UserController {
                 userDetails.getPassword()
         );
 
-            System.out.println("User " + customUserDTO.username() + " is authenticated");
+        System.out.println("User " + customUserDTO.username() + " is authenticated");
 
-            return ResponseEntity.ok(customUserDTO);
+        return ResponseEntity.ok(customUserDTO);
 
     }
 }

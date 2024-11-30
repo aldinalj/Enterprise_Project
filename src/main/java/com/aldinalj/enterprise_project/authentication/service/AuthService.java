@@ -32,7 +32,7 @@ public class AuthService {
                         ));
 
         String generatedToken = jwtService.generateToken(customUserDTO.username());
-        System.out.println("Generated token: " +  generatedToken);
+        System.out.println("Generated token: " + generatedToken);
 
         return new AuthResponseDTO(
                 generatedToken,

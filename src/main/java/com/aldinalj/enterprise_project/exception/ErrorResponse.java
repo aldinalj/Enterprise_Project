@@ -16,5 +16,6 @@ public record ErrorResponse(
     public record ValidationError(
             String field,
             String error
-    ) {}
+    ) {
+    }
 }

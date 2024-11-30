@@ -60,7 +60,7 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity<CustomUserDTO> deleteUser (UserDetails userDetails) {
+    public ResponseEntity<CustomUserDTO> deleteUser(UserDetails userDetails) {
 
         if (Objects.isNull(userDetails)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -85,7 +85,7 @@ public class UserService {
             throw new UsernameNotFoundException(username + " could not be found.");
         }
 
-            userRepository.delete(userToDelete.get());
+        userRepository.delete(userToDelete.get());
     }
 }
 

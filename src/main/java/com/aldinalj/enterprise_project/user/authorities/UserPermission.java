@@ -1,6 +1,5 @@
 package com.aldinalj.enterprise_project.user.authorities;
 
-
 public enum UserPermission {
     GET("GET"),
     POST("POST"),
