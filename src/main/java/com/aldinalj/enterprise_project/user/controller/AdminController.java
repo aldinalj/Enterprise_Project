@@ -1,6 +1,8 @@
 package com.aldinalj.enterprise_project.user.controller;
 
+import com.aldinalj.enterprise_project.user.model.dto.CustomUserDTO;
 import com.aldinalj.enterprise_project.user.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,5 +25,12 @@ public class AdminController {
         userService.adminDeleteUser(username);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PostMapping("/create-admin")
+    public ResponseEntity<CustomUserDTO> registerAdmin(@Valid @RequestBody CustomUserDTO customUserDTO) {
+
+        return userService.createAdmin(customUserDTO);
+
     }
 }

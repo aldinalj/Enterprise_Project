@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Objects;
 import java.util.Optional;
 
+import static com.aldinalj.enterprise_project.user.authorities.UserRole.ADMIN;
 import static com.aldinalj.enterprise_project.user.authorities.UserRole.USER;
 
 @Service
@@ -86,6 +87,30 @@ public class UserService {
         }
 
         userRepository.delete(userToDelete.get());
+    }
+
+    @Transactional
+    public ResponseEntity<CustomUserDTO> createAdmin(CustomUserDTO customUserDTO) {
+
+        CustomUser customUser = new CustomUser(
+                customUserDTO.username(),
+                passwordEncoder.encode(customUserDTO.password()),
+                ADMIN,
+                true,
+                true,
+                true,
+                true
+        );
+
+        if (userDAO.findByUsernameIgnoreCase(customUser.getUsername()).isPresent()) {
+
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
+        userRepository.save(customUser);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(customUserDTO);
+
     }
 }
 
