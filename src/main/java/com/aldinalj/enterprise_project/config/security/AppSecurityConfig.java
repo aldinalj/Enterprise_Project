@@ -49,7 +49,7 @@ public class AppSecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/auth/**", "/user/register", "/activities/**").permitAll()
+                        .requestMatchers("/auth/**", "/user/register", "/activities/**").permitAll()
                         .requestMatchers("/user/delete-account").hasRole("USER")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user/test").hasAnyRole("USER", "ADMIN")
