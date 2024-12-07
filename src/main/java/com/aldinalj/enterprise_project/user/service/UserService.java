@@ -1,6 +1,5 @@
 package com.aldinalj.enterprise_project.user.service;
 
-import com.aldinalj.enterprise_project.user.dao.UserDAO;
 import com.aldinalj.enterprise_project.user.model.CustomUser;
 import com.aldinalj.enterprise_project.user.model.dto.CustomUserDTO;
 import com.aldinalj.enterprise_project.user.repository.UserRepository;
@@ -26,14 +25,11 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final UserDAO userDAO;
-
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserDAO userDAO) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.userDAO = userDAO;
     }
 
     @Transactional
@@ -49,7 +45,7 @@ public class UserService {
                 true
         );
 
-        if (userDAO.findByUsernameIgnoreCase(customUser.getUsername()).isPresent()) {
+        if (userRepository.findByUsernameIgnoreCase(customUser.getUsername()).isPresent()) {
 
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
@@ -67,7 +63,7 @@ public class UserService {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        CustomUser customUser = userDAO
+        CustomUser customUser = userRepository
                 .findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException(userDetails.getUsername() + "could not be found"));
 
@@ -80,7 +76,7 @@ public class UserService {
     @Transactional
     public void adminDeleteUser(String username) {
 
-        Optional<CustomUser> userToDelete = userDAO.findByUsername(username);
+        Optional<CustomUser> userToDelete = userRepository.findByUsername(username);
 
         if (userToDelete.isEmpty()) {
             throw new UsernameNotFoundException(username + " could not be found.");
@@ -102,7 +98,7 @@ public class UserService {
                 true
         );
 
-        if (userDAO.findByUsernameIgnoreCase(customUser.getUsername()).isPresent()) {
+        if (userRepository.findByUsernameIgnoreCase(customUser.getUsername()).isPresent()) {
 
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
